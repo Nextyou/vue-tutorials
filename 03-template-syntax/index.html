@@ -10,7 +10,7 @@
 	<script src="https://unpkg.com/vue"></script>
 </head>
 <body>
-	<!-- 插值 -->
+	<!-- 1. 插值 -->
 	<div id="app">
 		<span>{{msg}}</span><br>
 		<span v-once>这个值将不会改变:{{msg}}</span>
@@ -22,7 +22,7 @@
 		<p>{{ content.split('').reverse().join('') }}</p>
 	</div>
 	<hr>
-	<!-- 指令 -->
+	<!-- 2. 指令 -->
 	<div id="app-2">
 		<p v-if="seen">可以看到</p>
 		<p></p><a v-bind:href="url">超链接</a></p>
@@ -30,7 +30,7 @@
 		<button v-on:click="click2">click me!</button>
 	</div>
 	
-	<!-- 缩写 -->
+	<!-- 3. 缩写 -->
 	<script type="text/javascript">
 		var vm = new Vue({
 			el:"#app",
