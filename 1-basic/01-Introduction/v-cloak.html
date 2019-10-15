@@ -1,0 +1,31 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>v-cloak</title>
+		<script src="https://unpkg.com/vue"></script>
+		<style type="text/css">
+			/* 不能写在外部文件 */
+			[v-cloak] {
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak>
+			{{msg}}
+		</div>
+		<script type="text/javascript">
+			// HTML 绑定 Vue实例，在页面加载时会闪烁  模拟效果
+			setTimeout(() => {
+				new Vue({
+					el: '#app',
+					data: {
+						msg: 'hello'
+					}
+				})
+			}, 2000)
+		</script>
+	</body>
+</html>
