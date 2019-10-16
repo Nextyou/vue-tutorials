@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>组件注册</title>
+	<script src="../lib/vue-2.4.0.js"></script>
+</head>
+<body>
+	<div id="app">
+		<component-a></component-a>
+		<component-b></component-b>
+	</div>
+	
+	<script type="text/javascript">
+		// 全局注册,可以在任意地方使用
+		Vue.component("component-a",{template:'<h3>Hello</h3>'});
+		Vue.component("component-b",{template:'<h3>Vue</h3>'});
+		new Vue({
+			el:"#app"
+		})
+	</script>
+</body>
+</html>

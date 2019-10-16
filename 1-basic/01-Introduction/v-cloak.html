@@ -14,7 +14,14 @@
 	</head>
 	<body>
 		<div id="app" v-cloak>
-			{{msg}}
+			<!-- 不会显示，直到编译结束 -->
+			<p v-cloak>{{msg}}</p>
+			<h4 v-text="msg">==========</h4>
+			<p v-html="content"></p>
+			<!-- v-bind: 是 Vue中，提供的用于绑定属性的指令 -->
+			<input type="button" name="" id="" value="按钮" v-bind:title="title" v-on:click="show"/>
+			
+			<input type="button" name="" id="" value="按钮" :title="title" @click="show"/>
 		</div>
 		<script type="text/javascript">
 			// HTML 绑定 Vue实例，在页面加载时会闪烁  模拟效果
@@ -22,7 +29,15 @@
 				new Vue({
 					el: '#app',
 					data: {
-						msg: 'hello'
+						msg: 'hello',
+						content:'<strong>Vue</strong>',
+						title:'标题'
+					},
+					// 这个 methods属性中定义了当前Vue实例所有可用的方法
+					methods:{
+						show:function(){
+							alert('Hello')
+						}
 					}
 				})
 			}, 2000)

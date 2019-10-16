@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>动画</title>
+		<link rel="stylesheet" type="text/css" href="../lib/animate.css"/>
+		<script src="../lib/vue-2.4.0.js"></script>
+		<style>
+			/* v-enter 【这是一个时间点】 是进入之前，元素的起始状态，此时还没有开始进入 */
+		    /* v-leave-to 【这是一个时间点】 是动画离开之后，离开的终止状态，此时，元素 动画已经结束了 */
+		    .v-enter,
+		    .v-leave-to {
+		      opacity: 0;
+		      transform: translateX(150px);
+		    }
+		
+		    /* v-enter-active 【入场动画的时间段】 */
+		    /* v-leave-active 【离场动画的时间段】 */
+		    .v-enter-active,
+		    .v-leave-active{
+		      transition: all 0.8s ease;
+		    }
+			
+			.my-enter,
+			.my-leave-to {
+			    opacity: 0;
+			    transform: translateY(70px);
+			}
+			
+			.my-enter-active,
+			.my-leave-active{
+			   transition: all 0.8s ease;
+			}
+		  </style>
+	</head>
+	<body>
+		<!-- 不使用动画 -->
+		<div id="app">
+			<input type="button" value="toggle" @click="flag=!flag">
+			<!-- 需求： 点击按钮，让 h3 显示，再点击，让 h3 隐藏 -->
+			<h3 v-if="flag">这是一个H3</h3>
+
+			<!-- 使用过渡类名实现动画 -->
+			<!-- 需求： 点击按钮，让 h3 显示，再点击，让 h3 隐藏 -->
+			<!-- 1. 使用 transition 元素，把 需要被动画控制的元素，包裹起来 -->
+			<!-- transition 元素，是 Vue 官方提供的 -->
+			<transition>
+				<h3 v-if="flag">这是一个H3</h3>
+			</transition>
+
+			<hr>
+
+			<input type="button" value="toggle2" @click="flag2=!flag2">
+			<!-- 修改v-前缀 -->
+			<transition name="my">
+				<h6 v-if="flag2">这是一个H6</h6>
+			</transition>
+
+			<hr>
+			<!-- 使用第三方类库 -->
+			<input type="button" value="toggle3" @click="flag3=!flag3">
+			<!-- 需求： 点击按钮，让 h3 显示，再点击，让 h3 隐藏 -->
+			<!-- <transition enter-active-class="animated bounceIn" leave-active-class="animated bounceOut">
+				<h3 v-if="flag3">这是一个H3</h3>
+			</transition> -->
+
+			<!-- 使用 :duration="毫秒值" 来统一设置 入场 和 离场 时候的动画时长 -->
+			<!-- <transition enter-active-class="bounceIn" leave-active-class="bounceOut" :duration="200">
+				<h3 v-if="flag3" class="animated">这是一个H3</h3>
+			</transition> -->
+
+			<!-- 使用  :duration="{ enter: 200, leave: 400 }"  来分别设置 入场的时长 和 离场的时长  -->
+			<transition enter-active-class="bounceIn" leave-active-class="bounceOut" :duration="{ enter: 2000, leave: 4000 }">
+				<h3 v-if="flag3" class="animated">这是一个H3</h3>
+			</transition>
+		</div>
+
+		<script type="text/javascript">
+			// 创建 Vue 实例，得到 ViewModel
+			var vm = new Vue({
+				el: '#app',
+				data: {
+					flag: false,
+					flag2: false,
+					flag3: false
+				},
+				methods: {}
+			});
+		</script>
+	</body>
+</html>

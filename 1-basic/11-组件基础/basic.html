@@ -1,0 +1,186 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>组件基础-基本示例</title>
+		<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<!-- 使用自定义组件，组件是可复用的Vue实例 -->
+			<button-counter></button-counter>
+			<!-- 组件复用 -->
+			<!-- 注意当点击按钮时，每个组件都会各自独立维护它的 count。因为你每用一次组件，就会有一个它的新实例被创建。 -->
+			<button-counter></button-counter>
+			<button-counter></button-counter>
+		</div>
+		<!-- 通过prop向子组件传递数据 -->
+		<div id="app2">
+			<blog-post title="My journey with Vue"></blog-post>
+			<blog-post title="Blogging with Vue"></blog-post>
+			<blog-post title="Why Vue is so fun"></blog-post>
+		</div>
+
+		<div id="app3">
+			<blog-post v-for="post in posts" v-bind:key="post.id" v-bind:title="post.title"></blog-post>
+		</div>
+
+		<div id="app4">
+			<blog-post-new v-for="post in posts" v-bind:key="post.id" v-bind:post="post"></blog-post-new>
+		</div>
+
+		<hr>
+
+		<!-- 通过事件向父级组件发送消息 -->
+		<div id="book-list" :style="{fontSize:postFontSize+'em'}">
+			<!-- 2. v-on 监听一个事件 -->
+			<!-- <book-list v-for="book in books" v-bind:key="book.id" v-bind:book="book" v-on:enlarge-text="postFontSize+=$event"></book-list> -->
+			<book-list v-for="book in books" v-bind:key="book.id" v-bind:book="book" v-on:enlarge-text="onEnlargeText"></book-list>
+		</div>
+
+		<hr>
+
+		<!-- 在组件上使用v-model -->
+		<input v-model="searchText">
+		<!-- 等价于 -->
+		<div id="form">
+			<input v-bind:value="searchText" v-on:input="searchText = $event.target.value">
+		</div>
+		<!-- 组件方式 -->
+
+		<div id="custom-input">
+			<custom-input v-bind:value="searchText" v-on:input="searchText = $event"></custom-input>
+			<custom-input v-model="searchText"></custom-input>
+		</div>
+		
+		<hr>
+		<!-- 通过插槽（solt）分发内容 -->
+		<alert-box>出错了！</alert-box>
+		
+		<hr>
+		<script type="text/javascript">
+			// 定义一个名称为button-counter的新组件
+			Vue.component('button-counter', {
+				// props: ['title'],
+				// data必须是一个函数
+				data: function() {
+					return {
+						count: 0
+					}
+				},
+				template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
+			});
+
+			new Vue({
+				el: "#app"
+			});
+
+			Vue.component('blog-post', {
+				props: ['title'],
+				template: '<h3>{{ title }}</h3>'
+			})
+
+			// 重构后的组件,可以随时为post增加新属性
+			Vue.component('blog-post-new', {
+				props: ['post'],
+				// 每个组件必须只有一个根元素
+				template: '<div class="blog-post"><h3>{{ post.title }}</h3><div v-html="post.content"></div></div>'
+			})
+
+			Vue.component('book-list', {
+				props: ['book'],
+				// 1. $emit 调用内建的 $emit 方法并传入事件的名字，来向父级组件(book-list)触发一个事件
+				template: '<div class="book-list"><h3>{{ book.title }}</h3><button v-on:click="$emit(\'enlarge-text\',0.1)">Enlarge text</button><div v-html="book.content"></div></div>'
+			})
+
+			new Vue({
+				el: "#app2"
+			});
+			new Vue({
+				el: "#app3",
+				data: {
+					posts: [{
+							id: 1,
+							title: 'post 1'
+						},
+						{
+							id: 2,
+							title: 'post 2'
+						},
+						{
+							id: 3,
+							title: 'post 3'
+						}
+					]
+				}
+			});
+			new Vue({
+				el: "#app4",
+				data: {
+					posts: [{
+							id: 1,
+							title: 'post 1',
+							content: 'a'
+						},
+						{
+							id: 2,
+							title: 'post 2',
+							content: 'b'
+						},
+						{
+							id: 3,
+							title: 'post 3',
+							content: 'c'
+						}
+					]
+				}
+			});
+
+			new Vue({
+				el: "#book-list",
+				data: {
+					postFontSize: 1,
+					textColor: 'red',
+					books: [{
+						id: 1,
+						title: 'book 1',
+						content: 'a'
+					}]
+				},
+				methods: {
+					onEnlargeText: function(enlargeAmount) { // enlargeAmount的值从$emit第二个参数传递过来
+						this.postFontSize += enlargeAmount
+					}
+				}
+			});
+
+			Vue.component('custom-input', {
+				props: ['value'],
+				template: `<input v-bind:value="value" v-on:input="$emit('input', $event.target.value)">`
+			})
+
+			new Vue({
+				el: "#form",
+				data:{
+					searchText:"searchValue"
+				}
+			})
+			
+			new Vue({
+				el: "#custom-input",
+				data:{
+					searchText:"searchValue"
+				}
+			})
+			
+			Vue.component('alert-box',{
+				template:'<div class="demo-alert-box"><strong>Error!</strong><slot></slot></div>'
+			})
+			
+			new Vue({
+				el:"alert-box"
+			})
+		</script>
+	</body>
+</html>
