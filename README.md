@@ -7,6 +7,6 @@
 - [serrver](https://github.com/arm-liang/vue-mobbile-server)
 - [client](https://github.com/arm-liang/vue-mobbile-learning)
 - [github](https://github.com/ragnar-document/leaveSoundMass-project)
-- [github]( https://github.com/wishvzz/VueStore)
-- [github](github:https://github.com/a497579916/vue)
+- [github](https://github.com/wishvzz/VueStore)
+- [github](https://github.com/a497579916/vue)
 - [github](https://github.com/zpj80231/vue-demo)
