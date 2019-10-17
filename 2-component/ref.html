@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>ref获取DOM元素和组件</title>
+		<script src="../lib/vue-2.4.0.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<input type="button" name="" id="" value="获取DOM元素" ref='input' @click="getRef()"/>
+			
+			<h3 id='h3' ref='h3'>Hello Vue!</h3>
+			
+			<login ref='login'></login>
+		</div>
+		<script type="text/javascript">
+			var login = {
+				template: '<h2>登陆组件</h2>',
+				data() {
+					return {
+						msg: "son msg"
+					}
+				},
+				methods: {
+					show() {
+						console.log("调用了子组件的方法")
+					}
+				}
+			}
+
+
+			var vm = new Vue({
+				el: "#app",
+				data: {},
+				methods: {
+					getRef() {
+						// console.log(document.getElementById('h3').innerText);
+
+						//  ref  是 英文单词 【reference】   值类型 和 引用类型  referenceError
+						// console.log(this.$refs.h3.innerText)
+
+						// console.log(this.$refs.login.msg)
+						this.$refs.login.show()
+					}
+				},
+				components: {
+					login
+				}
+			})
+		</script>
+	</body>
+</html>
